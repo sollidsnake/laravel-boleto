@@ -1590,6 +1590,49 @@ abstract class AbstractBoleto implements BoletoContract
     }
 
     /**
+     * Define a linha digitável do boleto
+     *
+     * @return AbstractBoleto
+     */
+    public function setLinhaDigitavel(string $linhaDigitavel): AbstractBoleto
+    {
+        $this->campoLinhaDigitavel = static::formatLinhaDigitavel(
+            $linhaDigitavel,
+        );
+        return $this;
+    }
+
+    public static function formatLinhaDigitavel($ld)
+    {
+        return substr($ld, 0, 5) .
+            '.' .
+            substr($ld, 5, 5) .
+            ' ' .
+            substr($ld, 10, 5) .
+            '.' .
+            substr($ld, 15, 6) .
+            ' ' .
+            substr($ld, 21, 5) .
+            '.' .
+            substr($ld, 26, 6) .
+            ' ' .
+            substr($ld, 32, 1) .
+            ' ' .
+            substr($ld, 33);
+    }
+
+    /**
+     * Define o código de barras do boleto
+     *
+     * @return AbstractBoleto
+     */
+    public function setCodigoBarras(string $barcode): AbstractBoleto
+    {
+        $this->campoCodigoBarras = $barcode;
+        return $this;
+    }
+
+    /**
      * Retorna se a segunda linha contendo o endereço do beneficiário deve ser exibida na ficha de compensação
      *
      * @return bool
